@@ -144,7 +144,9 @@ int main()
             }
             if(!capture(path)){
                 char err_code[256];
-                sprintf(err_code, "%s, Error Code: %d\n", strerror(errno), errno);
+                snprintf(err_code, strlen(strerror(errno))+19,
+                        "%s, Error Code: %d\n",
+                        strerror(errno), errno);
                 write(newsockfd, err_code, strlen(err_code));
             }
         }
@@ -162,7 +164,7 @@ int main()
 
 void execute(const char *cmd, char *buffer){
     char command[MB];
-    sprintf(command, "%s ", cmd);
+    snprintf(command,strlen(cmd), "%s ", cmd);
     FILE *fp = popen(command, "r");
     char tmp[MB];
     memset(tmp, '\0', MB);
