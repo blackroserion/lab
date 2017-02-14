@@ -1,5 +1,6 @@
 /***************************
- * Made with love By rion
+ * rion@c0d3r
+ * here, take my dirty code
  ***************************/
 
 #include <stdio.h>
@@ -60,13 +61,16 @@ int main(int argc, char *argv[]){
         else
             help();
     }
-    
+
     int mode = atoi(argv[2]);
+    if(!mode && mode != 0)
+        error("Mode must be integer");
     char *host = argv[1];
     char cmd[MAX_CMD];
 
     strcpy(cmd, "nmap ");
-    switch(mode){
+    switch(mode)
+    {
         case 0: strcat(cmd, "-v ");break;
         case 1: strcat(cmd, "-A -v ");break;
         case 2: strcat(cmd, "-sA ");break;
@@ -98,19 +102,22 @@ int main(int argc, char *argv[]){
     FILE *fp = popen(cmd, "r");
     char buff[MAX_OUT];
     int flag = 0;
-    if(fp){
-        while(fgets(buff, MAX_LEN, (FILE*)fp)){
+    if(fp)
+    {
+        while(fgets(buff, MAX_LEN, (FILE*)fp))
+        {
             if(!strncmp(buff, "PORT", 4)        ||
                 !strncmp(buff, "PROTOCOL", 8)   ||
                 !strncmp(buff, "SENT", 4)       ||
-                !strncmp(buff, "CONN", 4))
-                    flag = 1;
-            if( !strncmp(buff, "Read", 4)       ||
+                !strncmp(buff, "CONN", 4)       ||
+                !strncmp(buff, "FAILED", 6)
+              ) flag = 1;
+            else if( !strncmp(buff, "Read", 4)  ||
                 !strncmp(buff, "Nmap", 4)       ||
                 !strncmp(buff, "Completed", 9)  ||
                 !strncmp(buff, "NSE", 3)        ||
-                !strncmp(buff, "Service", 7))
-                flag = 0;
+                !strncmp(buff, "Service", 7)
+              ) flag = 0;
             print_state(buff, flag);
         }
         fclose(fp);
