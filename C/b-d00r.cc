@@ -99,7 +99,8 @@ int main()
             if(!strcmp(dir, "~") || !strcmp(dir, "~/"))
             {
                 if(chdir(usrhome()) == -1){
-                    sprintf(errors, "%s %s\n", usrhome(), strerror(errno));   //same like perror
+                    snprintf(errors, (strlen(usrhome()) + strlen(strerror(errno)))+3,
+                            "%s %s\n", usrhome(), strerror(errno));
                     write(newsockfd, errors, strlen(errors));
                 }
             }
@@ -108,18 +109,21 @@ int main()
                 for(int i=0; i < (int)strlen(dir); i++)
                     dir[i] = dir[i+2];                  //removing "~/"
                 if(chdir(usrhome()) == -1){
-                    sprintf(errors, "%s %s\n", usrhome(), strerror(errno));   //same like perror
+                    snprintf(errors, (strlen(usrhome()) + strlen(strerror(errno)))+3,
+                            "%s %s\n", usrhome(), strerror(errno));
                     write(newsockfd, errors, strlen(errors));
                 }
                 if(chdir(dir) == -1){
-                    sprintf(errors, "%s %s\n", dir, strerror(errno));   //same like perror
+                    snprintf(errors, (strlen(dir) + strlen(strerror(errno)))+3,
+                            "%s %s\n", dir, strerror(errno));
                     write(newsockfd, errors, strlen(errors));
                 }
             }
             else
             {
                 if(chdir(dir) == -1){
-                    sprintf(errors, "%s %s\n",dir, strerror(errno));   //same like perror
+                    snprintf(errors, (strlen(dir) + strlen(strerror(errno)))+3,
+                            "%s %s\n", dir, strerror(errno));
                     write(newsockfd, errors, strlen(errors));
                 }
             }
