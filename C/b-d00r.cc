@@ -4,11 +4,11 @@
  */
 
 
-#include <stdio.h>  //Standard i/
+#include <stdio.h>  //Standard i/o
 #include <unistd.h> //Write & Read & chdir & required by USER HOME
 #include <netinet/in.h> //Main socket function
 #include <string.h> //memset
-#include <stdlib.h> //atoi
+#include <stdlib.h> //atoi, htons
 #include <errno.h>  //strerror & errno
 #include <dirent.h> //checking directory for replacing ls command
 /**USER HOME**/
